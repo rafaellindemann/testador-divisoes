@@ -3,46 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conferir Divisão</title>
+  <title>Divisão Kawaii</title>
   <style>
+    :root {
+      --bg1: #f7efff;
+      --bg2: #fce4f3;
+      --bg3: #efe7ff;
+      --card: rgba(255, 255, 255, 0.93);
+      --card-border: #d6b6ff;
+      --title: #4a2b63;
+      --text: #5c496d;
+      --muted: #8a79a0;
+      --input-bg: #fffaff;
+      --input-border: #dcc6ff;
+      --input-focus: #bd8cff;
+      --result-bg: linear-gradient(180deg, #faf5ff, #fffaff);
+      --result-border: #cfb0ff;
+      --value-bg: #ffffff;
+      --value-border: #eadcff;
+      --value-text: #7149a6;
+      --btn1: #d8b4fe;
+      --btn2: #f0abfc;
+      --btn-text: #47255f;
+      --btn-alt1: #fbcfe8;
+      --btn-alt2: #fce7f3;
+      --btn-alt-text: #8d4a70;
+      --chip-bg: rgba(255, 255, 255, 0.82);
+      --chip-border: #eadcff;
+      --chip-active-bg: #ffffff;
+      --chip-active-border: #c084fc;
+      --chip-text: #5b456d;
+      --accent: #c084fc;
+      --shadow: rgba(114, 74, 154, 0.18);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Trebuchet MS", "Comic Sans MS", Arial, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #ffd6e8, #dff7ff, #fff4c2);
+      padding: 20px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, var(--bg2) 0%, transparent 28%),
+        radial-gradient(circle at bottom right, var(--bg3) 0%, transparent 28%),
+        linear-gradient(135deg, var(--bg1), #fff9fc, var(--bg3));
+      transition: background 0.45s ease;
+    }
+
+    .theme-flash {
+      animation: bodyPop 0.45s ease;
+    }
+
+    @keyframes bodyPop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    .page {
+      min-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+
+    .theme-switcher {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 900px;
+    }
+
+    .theme-btn {
+      border: 2px solid var(--chip-border);
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      backdrop-filter: blur(4px);
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-2px);
+      background: #fff;
+    }
+
+    .theme-btn.active {
+      background: var(--chip-active-bg);
+      border-color: var(--chip-active-border);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
+
+    .main-content {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
     }
 
     .card {
       width: 100%;
-      max-width: 480px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-      border: 3px solid #ffffff;
+      max-width: 620px;
+      background: var(--card);
+      border: 3px solid var(--card-border);
+      border-radius: 32px;
+      padding: 26px;
+      box-shadow:
+        0 18px 40px var(--shadow),
+        inset 0 0 0 4px rgba(255, 255, 255, 0.65);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+      transition:
+        border-color 0.35s ease,
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
     }
 
-    .titulo {
+    .card.theme-animate {
+      animation: cardThemeSwap 0.45s ease;
+    }
+
+    @keyframes cardThemeSwap {
+      0% {
+        transform: scale(0.985) rotate(-0.3deg);
+        opacity: 0.95;
+      }
+      50% {
+        transform: scale(1.01) rotate(0.3deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .card::before,
+    .card::after {
+      position: absolute;
+      opacity: 0.22;
+      pointer-events: none;
+      color: var(--accent);
+      transition: color 0.35s ease;
+    }
+
+    .card::before {
+      content: "★ ✦ ♡";
+      top: 16px;
+      left: 18px;
+      font-size: 1.5rem;
+    }
+
+    .card::after {
+      content: "✿ ☁ ★";
+      bottom: 16px;
+      right: 18px;
+      font-size: 1.5rem;
+    }
+
+    .topo {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .mascote-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .mascote {
+      font-size: 3rem;
+      line-height: 1;
+      display: inline-block;
+      animation: floaty 3s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+    }
+
+    .halo {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 72px;
+      height: 72px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+      filter: blur(4px);
+      z-index: 1;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    h1 {
       font-size: 2rem;
-      color: #5b4b8a;
+      color: var(--title);
+      margin-bottom: 8px;
+      transition: color 0.35s ease;
     }
 
     .subtitulo {
-      text-align: center;
-      margin-bottom: 24px;
-      color: #666;
+      color: var(--muted);
       font-size: 1rem;
+      line-height: 1.5;
+      padding: 0 10px;
+      transition: color 0.35s ease;
     }
 
     .grupo {
@@ -52,145 +240,299 @@
     label {
       display: block;
       margin-bottom: 8px;
+      color: var(--text);
       font-weight: bold;
-      color: #444;
+      font-size: 1rem;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      opacity: 0.8;
+      pointer-events: none;
     }
 
     input {
       width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #d9d9ff;
-      border-radius: 14px;
+      padding: 14px 42px 14px 16px;
+      border-radius: 16px;
+      border: 2px solid var(--input-border);
+      background: var(--input-bg);
       font-size: 1.1rem;
+      color: var(--text);
       outline: none;
-      transition: 0.2s;
+      transition: 0.2s ease;
+      box-shadow: inset 0 2px 8px rgba(214, 197, 255, 0.16);
     }
 
     input:focus {
-      border-color: #8b80ff;
-      box-shadow: 0 0 0 4px rgba(139, 128, 255, 0.15);
+      border-color: var(--input-focus);
+      box-shadow:
+        0 0 0 4px color-mix(in srgb, var(--input-focus) 20%, transparent),
+        inset 0 2px 8px rgba(214, 197, 255, 0.16);
     }
 
     .botoes {
       display: flex;
       gap: 12px;
-      margin-top: 8px;
-      margin-bottom: 24px;
+      margin: 10px 0 22px;
     }
 
-    button {
+    button.action-btn {
       flex: 1;
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 14px;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.2s ease;
     }
 
     .btn-calcular {
-      background: #8b80ff;
-      color: white;
-    }
-
-    .btn-calcular:hover {
-      background: #7468f2;
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, var(--btn1), var(--btn2));
+      color: var(--btn-text);
+      box-shadow: 0 8px 16px color-mix(in srgb, var(--btn1) 40%, transparent);
     }
 
     .btn-limpar {
-      background: #ffe28a;
-      color: #5a4a00;
+      background: linear-gradient(135deg, var(--btn-alt1), var(--btn-alt2));
+      color: var(--btn-alt-text);
+      box-shadow: 0 8px 16px color-mix(in srgb, var(--btn-alt1) 40%, transparent);
     }
 
-    .btn-limpar:hover {
-      background: #ffd95d;
-      transform: translateY(-1px);
+    button.action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
     }
 
     .resultado {
-      background: #f8f9ff;
-      border: 2px dashed #b8b0ff;
-      border-radius: 18px;
-      padding: 20px;
+      background: var(--result-bg);
+      border: 2px dashed var(--result-border);
+      border-radius: 24px;
+      padding: 22px;
       text-align: center;
+      transition:
+        border-color 0.35s ease,
+        transform 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resultado::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55), transparent 18%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.42), transparent 16%),
+        radial-gradient(circle at 60% 80%, rgba(255,255,255,0.36), transparent 15%);
+      pointer-events: none;
+    }
+
+    .resultado.animate {
+      animation: resultBounce 0.7s ease;
+    }
+
+    @keyframes resultBounce {
+      0% { transform: scale(0.96); }
+      25% { transform: scale(1.03); }
+      45% { transform: scale(0.99); }
+      70% { transform: scale(1.015); }
+      100% { transform: scale(1); }
     }
 
     .resultado h2 {
-      font-size: 1.2rem;
-      color: #5b4b8a;
+      color: var(--title);
       margin-bottom: 16px;
+      font-size: 1.2rem;
     }
 
-    .linha-resultado {
-      margin-bottom: 12px;
-      font-size: 1.1rem;
-      color: #333;
+    .linha {
+      font-size: 1.08rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.6;
     }
 
     .valor {
       display: inline-block;
-      background: white;
-      color: #7a5cff;
-      font-weight: bold;
-      padding: 6px 12px;
-      border-radius: 10px;
-      min-width: 70px;
+      min-width: 90px;
       margin-left: 8px;
-      box-shadow: inset 0 0 0 2px #e3e0ff;
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: var(--value-bg);
+      border: 2px solid var(--value-border);
+      color: var(--value-text);
+      font-weight: bold;
+      box-shadow: inset 0 2px 6px rgba(214, 197, 255, 0.15);
+      transition:
+        transform 0.2s ease,
+        border-color 0.35s ease,
+        color 0.35s ease;
+    }
+
+    .valor.pop {
+      animation: popValue 0.45s ease;
+    }
+
+    @keyframes popValue {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); }
     }
 
     .mensagem {
-      margin-top: 14px;
-      color: #c0392b;
-      font-weight: bold;
       min-height: 24px;
+      margin-top: 10px;
+      color: var(--btn-alt-text);
+      font-weight: bold;
+      transition: color 0.35s ease;
     }
 
-    .decoracao {
+    .rodape {
+      margin-top: 16px;
       text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 1rem;
+      opacity: 0;
+      animation: sparkleUp 0.9s ease forwards;
+    }
+
+    @keyframes sparkleUp {
+      0% {
+        transform: translateY(8px) scale(0.6);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-28px) scale(1.15);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 14px;
+      }
+
+      .page {
+        min-height: calc(100vh - 28px);
+      }
+
+      .topbar {
+        justify-content: center;
+      }
+
+      .theme-switcher {
+        justify-content: center;
+      }
+
+      .card {
+        padding: 20px 16px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .botoes {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="decoracao">➗✨📚</div>
-    <h1 class="titulo">Conferir Divisão</h1>
-    <p class="subtitulo">
-      Digite o dividendo e o divisor para ver o quociente e o resto.
-    </p>
-
-    <div class="grupo">
-      <label for="dividendo">Dividendo</label>
-      <input type="number" id="dividendo" placeholder="Ex: 17" />
-    </div>
-
-    <div class="grupo">
-      <label for="divisor">Divisor</label>
-      <input type="number" id="divisor" placeholder="Ex: 5" />
-    </div>
-
-    <div class="botoes">
-      <button class="btn-calcular" id="btnCalcular">Calcular</button>
-      <button class="btn-limpar" id="btnLimpar">Limpar</button>
-    </div>
-
-    <section class="resultado">
-      <h2>Resultado</h2>
-      <div class="linha-resultado">
-        Resultado:
-        <span class="valor" id="quociente">-</span>
+  <div class="page">
+    <header class="topbar">
+      <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="kuromi">Kuromi</button>
+        <button class="theme-btn" data-theme="helloKitty">Hello Kitty</button>
+        <button class="theme-btn" data-theme="cinnamoroll">Cinnamoroll</button>
+        <button class="theme-btn" data-theme="myMelody">My Melody</button>
+        <button class="theme-btn" data-theme="keroppi">Keroppi</button>
+        <button class="theme-btn" data-theme="hamburger">Hamburger</button>
       </div>
-      <div class="linha-resultado">
-        Resto:
-        <span class="valor" id="resto">-</span>
-      </div>
-      <div class="mensagem" id="mensagem"></div>
-    </section>
-  </main>
+    </header>
+
+    <main class="main-content">
+      <section class="card" id="card">
+        <div class="topo">
+          <div class="mascote-wrap">
+            <div class="halo"></div>
+            <div class="mascote" id="mascote">💜🖤🎀</div>
+          </div>
+          <h1>Conferir Divisão</h1>
+          <p class="subtitulo" id="subtitulo">
+            Tema Kuromi: fofinho, estiloso e cheio de charme para conferir as divisões.
+          </p>
+        </div>
+
+        <div class="grupo">
+          <label for="dividendo">Dividendo</label>
+          <div class="input-wrap">
+            <input type="number" id="dividendo" placeholder="Ex: 17" />
+            <span class="input-icon">✨</span>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label for="divisor">Divisor</label>
+          <div class="input-wrap">
+            <input type="number" id="divisor" placeholder="Ex: 5" />
+            <span class="input-icon">➗</span>
+          </div>
+        </div>
+
+        <div class="botoes">
+          <button class="action-btn btn-calcular" id="btnCalcular">Calcular ✨</button>
+          <button class="action-btn btn-limpar" id="btnLimpar">Limpar 🌸</button>
+        </div>
+
+        <section class="resultado" id="resultado">
+          <div class="sparkles" id="sparkles"></div>
+          <h2>Resultado fofinho</h2>
+
+          <div class="linha">
+            Divisão inteira:
+            <span class="valor" id="quociente">-</span>
+          </div>
+
+          <div class="linha">
+            Resto:
+            <span class="valor" id="resto">-</span>
+          </div>
+
+          <div class="mensagem" id="mensagem"></div>
+        </section>
+
+        <div class="rodape" id="rodape">
+          Treinando divisão com o jeitinho Kuromi 💜
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script>
     const inputDividendo = document.getElementById("dividendo");
@@ -200,19 +542,255 @@
     const mensagemEl = document.getElementById("mensagem");
     const btnCalcular = document.getElementById("btnCalcular");
     const btnLimpar = document.getElementById("btnLimpar");
+    const mascoteEl = document.getElementById("mascote");
+    const subtituloEl = document.getElementById("subtitulo");
+    const rodapeEl = document.getElementById("rodape");
+    const cardEl = document.getElementById("card");
+    const resultadoEl = document.getElementById("resultado");
+    const sparklesEl = document.getElementById("sparkles");
+    const themeButtons = document.querySelectorAll(".theme-btn");
+
+    const themes = {
+      kuromi: {
+        vars: {
+          "--bg1": "#f7efff",
+          "--bg2": "#fce4f3",
+          "--bg3": "#efe7ff",
+          "--card-border": "#d6b6ff",
+          "--title": "#4a2b63",
+          "--text": "#5c496d",
+          "--muted": "#8a79a0",
+          "--input-bg": "#fffaff",
+          "--input-border": "#dcc6ff",
+          "--input-focus": "#bd8cff",
+          "--result-bg": "linear-gradient(180deg, #faf5ff, #fffaff)",
+          "--result-border": "#cfb0ff",
+          "--value-border": "#eadcff",
+          "--value-text": "#7149a6",
+          "--btn1": "#d8b4fe",
+          "--btn2": "#f0abfc",
+          "--btn-text": "#47255f",
+          "--btn-alt1": "#fbcfe8",
+          "--btn-alt2": "#fce7f3",
+          "--btn-alt-text": "#8d4a70",
+          "--chip-border": "#eadcff",
+          "--chip-active-border": "#c084fc",
+          "--accent": "#c084fc"
+        },
+        mascote: "💜🖤🎀",
+        subtitulo: "Tema Kuromi: fofinho, estiloso e cheio de charme para conferir as divisões.",
+        rodape: "Treinando divisão com o jeitinho Kuromi 💜"
+      },
+      helloKitty: {
+        vars: {
+          "--bg1": "#fff1f2",
+          "--bg2": "#ffe4e6",
+          "--bg3": "#ffeef8",
+          "--card-border": "#f9a8d4",
+          "--title": "#b4235a",
+          "--text": "#7a3654",
+          "--muted": "#a55b78",
+          "--input-bg": "#fffafb",
+          "--input-border": "#f9a8d4",
+          "--input-focus": "#fb7185",
+          "--result-bg": "linear-gradient(180deg, #fff7fa, #fffefe)",
+          "--result-border": "#f9a8d4",
+          "--value-border": "#ffd3e3",
+          "--value-text": "#c02661",
+          "--btn1": "#fecdd3",
+          "--btn2": "#fda4af",
+          "--btn-text": "#7a1f45",
+          "--btn-alt1": "#ffe4e6",
+          "--btn-alt2": "#fff1f2",
+          "--btn-alt-text": "#a3325f",
+          "--chip-border": "#fbcfe8",
+          "--chip-active-border": "#fb7185",
+          "--accent": "#fb7185"
+        },
+        mascote: "🎀🐱🍓",
+        subtitulo: "Tema Hello Kitty: delicado, rosinha e super meiguinho.",
+        rodape: "Treinando divisão com laços e fofura 🎀"
+      },
+      cinnamoroll: {
+        vars: {
+          "--bg1": "#eef8ff",
+          "--bg2": "#dbeafe",
+          "--bg3": "#f0f9ff",
+          "--card-border": "#93c5fd",
+          "--title": "#28527a",
+          "--text": "#3c5f7d",
+          "--muted": "#6b8aa5",
+          "--input-bg": "#fcfeff",
+          "--input-border": "#93c5fd",
+          "--input-focus": "#60a5fa",
+          "--result-bg": "linear-gradient(180deg, #f5fbff, #ffffff)",
+          "--result-border": "#93c5fd",
+          "--value-border": "#dbeafe",
+          "--value-text": "#2563eb",
+          "--btn1": "#bfdbfe",
+          "--btn2": "#93c5fd",
+          "--btn-text": "#22476b",
+          "--btn-alt1": "#e0f2fe",
+          "--btn-alt2": "#f0f9ff",
+          "--btn-alt-text": "#2f6286",
+          "--chip-border": "#dbeafe",
+          "--chip-active-border": "#60a5fa",
+          "--accent": "#60a5fa"
+        },
+        mascote: "☁️🐶🩵",
+        subtitulo: "Tema Cinnamoroll: nuvenzinhas, azul clarinho e muita leveza.",
+        rodape: "Treinando divisão nas nuvens ☁️"
+      },
+      myMelody: {
+        vars: {
+          "--bg1": "#fff1f5",
+          "--bg2": "#ffe4e6",
+          "--bg3": "#fdf2f8",
+          "--card-border": "#f9a8d4",
+          "--title": "#9d255e",
+          "--text": "#7b3656",
+          "--muted": "#aa6682",
+          "--input-bg": "#fffafd",
+          "--input-border": "#f9a8d4",
+          "--input-focus": "#ec4899",
+          "--result-bg": "linear-gradient(180deg, #fff7fb, #fffefe)",
+          "--result-border": "#f9a8d4",
+          "--value-border": "#fbcfe8",
+          "--value-text": "#db2777",
+          "--btn1": "#fbcfe8",
+          "--btn2": "#f9a8d4",
+          "--btn-text": "#7b1d4e",
+          "--btn-alt1": "#fde2e8",
+          "--btn-alt2": "#fff1f2",
+          "--btn-alt-text": "#a53869",
+          "--chip-border": "#fbcfe8",
+          "--chip-active-border": "#ec4899",
+          "--accent": "#ec4899"
+        },
+        mascote: "🐰🎀🌸",
+        subtitulo: "Tema My Melody: um mundo cor-de-rosa bem docinho.",
+        rodape: "Treinando divisão com doçura e carinho 🌸"
+      },
+      keroppi: {
+        vars: {
+          "--bg1": "#f0fdf4",
+          "--bg2": "#dcfce7",
+          "--bg3": "#ecfccb",
+          "--card-border": "#86efac",
+          "--title": "#2f6b31",
+          "--text": "#3f6840",
+          "--muted": "#6a8f6b",
+          "--input-bg": "#fbfffc",
+          "--input-border": "#86efac",
+          "--input-focus": "#4ade80",
+          "--result-bg": "linear-gradient(180deg, #f6fff7, #ffffff)",
+          "--result-border": "#86efac",
+          "--value-border": "#dcfce7",
+          "--value-text": "#2f8f46",
+          "--btn1": "#bbf7d0",
+          "--btn2": "#86efac",
+          "--btn-text": "#285b2d",
+          "--btn-alt1": "#dcfce7",
+          "--btn-alt2": "#f0fdf4",
+          "--btn-alt-text": "#427749",
+          "--chip-border": "#dcfce7",
+          "--chip-active-border": "#4ade80",
+          "--accent": "#4ade80"
+        },
+        mascote: "🐸💚✨",
+        subtitulo: "Tema Keroppi: verdinho, alegre e pulando de fofura.",
+        rodape: "Treinando divisão com saltinhos felizes 🐸"
+      },
+      hamburger: {
+        vars: {
+          "--bg1": "#fff7ed",
+          "--bg2": "#ffedd5",
+          "--bg3": "#fef3c7",
+          "--card-border": "#fdba74",
+          "--title": "#92400e",
+          "--text": "#7c4a1d",
+          "--muted": "#a06b39",
+          "--input-bg": "#fffdfa",
+          "--input-border": "#fdba74",
+          "--input-focus": "#fb923c",
+          "--result-bg": "linear-gradient(180deg, #fffaf3, #fffefb)",
+          "--result-border": "#fdba74",
+          "--value-border": "#fed7aa",
+          "--value-text": "#b45309",
+          "--btn1": "#fdba74",
+          "--btn2": "#fcd34d",
+          "--btn-text": "#6b3f0d",
+          "--btn-alt1": "#fde68a",
+          "--btn-alt2": "#ffedd5",
+          "--btn-alt-text": "#9a5a15",
+          "--chip-border": "#fed7aa",
+          "--chip-active-border": "#fb923c",
+          "--accent": "#fb923c"
+        },
+        mascote: "🍔🍟🥤",
+        subtitulo: "Tema Hamburger: delicioso, divertido e bem diferentão.",
+        rodape: "Treinando divisão com fome de aprender 🍔"
+      }
+    };
+
+    function animateElementClass(element, className) {
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
+    }
+
+    function createSparkles() {
+      sparklesEl.innerHTML = "";
+      const symbols = ["★", "✦", "✿", "♡", "✨"];
+
+      for (let i = 0; i < 8; i++) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+        sparkle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        sparkle.style.left = Math.random() * 90 + "%";
+        sparkle.style.top = 55 + Math.random() * 25 + "%";
+        sparkle.style.animationDelay = (Math.random() * 0.2) + "s";
+        sparklesEl.appendChild(sparkle);
+      }
+    }
+
+    function applyTheme(themeName) {
+      const theme = themes[themeName];
+      if (!theme) return;
+
+      for (const variable in theme.vars) {
+        document.documentElement.style.setProperty(variable, theme.vars[variable]);
+      }
+
+      mascoteEl.textContent = theme.mascote;
+      subtituloEl.textContent = theme.subtitulo;
+      rodapeEl.textContent = theme.rodape;
+
+      themeButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.theme === themeName);
+      });
+
+      animateElementClass(document.body, "theme-flash");
+      animateElementClass(cardEl, "theme-animate");
+
+      localStorage.setItem("temaDivisaoKawaii", themeName);
+    }
 
     function calcularDivisao() {
-      const dividendo = Number(inputDividendo.value);
-      const divisor = Number(inputDivisor.value);
+      const valorDividendo = inputDividendo.value;
+      const valorDivisor = inputDivisor.value;
 
       mensagemEl.textContent = "";
 
-      if (inputDividendo.value === "" || inputDivisor.value === "") {
+      if (valorDividendo === "" || valorDivisor === "") {
         quocienteEl.textContent = "-";
         restoEl.textContent = "-";
         mensagemEl.textContent = "Preencha os dois campos.";
         return;
       }
+
+      const dividendo = Number(valorDividendo);
+      const divisor = Number(valorDivisor);
 
       if (divisor == 0) {
         quocienteEl.textContent = "-";
@@ -226,6 +804,12 @@
 
       quocienteEl.textContent = quociente;
       restoEl.textContent = resto;
+      mensagemEl.textContent = "Prontinho! 🌟";
+
+      animateElementClass(resultadoEl, "animate");
+      animateElementClass(quocienteEl, "pop");
+      animateElementClass(restoEl, "pop");
+      createSparkles();
     }
 
     function limparCampos() {
@@ -234,6 +818,7 @@
       quocienteEl.textContent = "-";
       restoEl.textContent = "-";
       mensagemEl.textContent = "";
+      sparklesEl.innerHTML = "";
       inputDividendo.focus();
     }
 
@@ -241,12 +826,27 @@
     btnLimpar.addEventListener("click", limparCampos);
 
     inputDividendo.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") calcularDivisao();
+      if (event.key === "Enter") {
+        event.preventDefault();
+        inputDivisor.focus();
+      }
     });
 
     inputDivisor.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") calcularDivisao();
+      if (event.key === "Enter") {
+        event.preventDefault();
+        calcularDivisao();
+      }
     });
+
+    themeButtons.forEach(button => {
+      button.addEventListener("click", function() {
+        applyTheme(this.dataset.theme);
+      });
+    });
+
+    const savedTheme = localStorage.getItem("temaDivisaoKawaii") || "kuromi";
+    applyTheme(savedTheme);
   </script>
 </body>
 </html>
