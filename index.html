@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conferir Divisão</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #dff7ff, #fff4c2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      border: 3px solid #ffffff;
+    }
+
+    .titulo {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2rem;
+      color: #5b4b8a;
+    }
+
+    .subtitulo {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .grupo {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #d9d9ff;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #8b80ff;
+      box-shadow: 0 0 0 4px rgba(139, 128, 255, 0.15);
+    }
+
+    .botoes {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      flex: 1;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-calcular {
+      background: #8b80ff;
+      color: white;
+    }
+
+    .btn-calcular:hover {
+      background: #7468f2;
+      transform: translateY(-1px);
+    }
+
+    .btn-limpar {
+      background: #ffe28a;
+      color: #5a4a00;
+    }
+
+    .btn-limpar:hover {
+      background: #ffd95d;
+      transform: translateY(-1px);
+    }
+
+    .resultado {
+      background: #f8f9ff;
+      border: 2px dashed #b8b0ff;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .resultado h2 {
+      font-size: 1.2rem;
+      color: #5b4b8a;
+      margin-bottom: 16px;
+    }
+
+    .linha-resultado {
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .valor {
+      display: inline-block;
+      background: white;
+      color: #7a5cff;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 10px;
+      min-width: 70px;
+      margin-left: 8px;
+      box-shadow: inset 0 0 0 2px #e3e0ff;
+    }
+
+    .mensagem {
+      margin-top: 14px;
+      color: #c0392b;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    .decoracao {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="decoracao">➗✨📚</div>
+    <h1 class="titulo">Conferir Divisão</h1>
+    <p class="subtitulo">
+      Digite o dividendo e o divisor para ver o quociente e o resto.
+    </p>
+
+    <div class="grupo">
+      <label for="dividendo">Dividendo</label>
+      <input type="number" id="dividendo" placeholder="Ex: 17" />
+    </div>
+
+    <div class="grupo">
+      <label for="divisor">Divisor</label>
+      <input type="number" id="divisor" placeholder="Ex: 5" />
+    </div>
+
+    <div class="botoes">
+      <button class="btn-calcular" id="btnCalcular">Calcular</button>
+      <button class="btn-limpar" id="btnLimpar">Limpar</button>
+    </div>
+
+    <section class="resultado">
+      <h2>Resultado</h2>
+      <div class="linha-resultado">
+        Resultado:
+        <span class="valor" id="quociente">-</span>
+      </div>
+      <div class="linha-resultado">
+        Resto:
+        <span class="valor" id="resto">-</span>
+      </div>
+      <div class="mensagem" id="mensagem"></div>
+    </section>
+  </main>
+
+  <script>
+    const inputDividendo = document.getElementById("dividendo");
+    const inputDivisor = document.getElementById("divisor");
+    const quocienteEl = document.getElementById("quociente");
+    const restoEl = document.getElementById("resto");
+    const mensagemEl = document.getElementById("mensagem");
+    const btnCalcular = document.getElementById("btnCalcular");
+    const btnLimpar = document.getElementById("btnLimpar");
+
+    function calcularDivisao() {
+      const dividendo = Number(inputDividendo.value);
+      const divisor = Number(inputDivisor.value);
+
+      mensagemEl.textContent = "";
+
+      if (inputDividendo.value === "" || inputDivisor.value === "") {
+        quocienteEl.textContent = "-";
+        restoEl.textContent = "-";
+        mensagemEl.textContent = "Preencha os dois campos.";
+        return;
+      }
+
+      if (divisor == 0) {
+        quocienteEl.textContent = "-";
+        restoEl.textContent = "-";
+        mensagemEl.textContent = "Não dá para dividir por zero.";
+        return;
+      }
+
+      const quociente = Math.floor(dividendo / divisor);
+      const resto = dividendo % divisor;
+
+      quocienteEl.textContent = quociente;
+      restoEl.textContent = resto;
+    }
+
+    function limparCampos() {
+      inputDividendo.value = "";
+      inputDivisor.value = "";
+      quocienteEl.textContent = "-";
+      restoEl.textContent = "-";
+      mensagemEl.textContent = "";
+      inputDividendo.focus();
+    }
+
+    btnCalcular.addEventListener("click", calcularDivisao);
+    btnLimpar.addEventListener("click", limparCampos);
+
+    inputDividendo.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") calcularDivisao();
+    });
+
+    inputDivisor.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") calcularDivisao();
+    });
+  </script>
+</body>
+</html>
